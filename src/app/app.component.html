@@ -1,0 +1,47 @@
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="dataSource"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [showBorders]="true"
+  (onContentReady)="contentReady($event)"
+>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+  <dxo-search-panel
+    [visible]="true"
+    [highlightCaseSensitive]="true"
+  ></dxo-search-panel>
+
+  <dxi-column
+    dataField="Product"
+    cellTemplate="discountCellTemplate"
+  ></dxi-column>
+  <dxi-column
+    dataField="Amount"
+    caption="Sale Amount"
+    dataType="number"
+    format="currency"
+    alignment="right"
+  ></dxi-column>
+  <dxi-column dataField="SaleDate" dataType="date"></dxi-column>
+  <dxi-column dataField="Region" dataType="string"></dxi-column>
+  <dxi-column dataField="Sector" dataType="string"></dxi-column>
+  <dxi-column dataField="Channel" dataType="string"></dxi-column>
+  <dxi-column dataField="Customer" dataType="string" [width]="150"></dxi-column>
+  <div *dxTemplate="let d of 'discountCellTemplate'">
+    <div
+      class="spec unavailable withTooltip"
+      (mouseenter)="toggleNotSupportedTip($event)"
+      (mouseleave)="toggleNotSupportedTip($event)"
+      id="spec_{{d.columnIndex}}_{{d.rowIndex}}"
+    ></div>
+  </div>
+</dx-data-grid>
+<dx-tooltip [(visible)]="showNotSupportedTip" position="right" #notSupportedTip>
+  <span> Datatype not supported</span>
+</dx-tooltip>
